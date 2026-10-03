@@ -1,66 +1,64 @@
-# ⚜️ Competition Intelligent Scout 3
+# Competition Intelligent Scout 3
 
-**Competition Intelligent Scout 3 (CIS 3)** adalah website informasi dan pusat akses perlombaan Pramuka yang diselenggarakan oleh **Ambalan Bhatara Rama & Dewi Shinta**, Gugus Depan Ciamis **01-139 & 01-140**.
+**Competition Intelligent Scout 3 (CIS 3)** adalah halaman informasi dan pusat tautan perlombaan Pramuka yang diselenggarakan oleh **Ambalan Bhatara Rama & Dewi Shinta**, Gugus Depan Ciamis **01-139 & 01-140**.
 
-Halaman utama menyediakan akses cepat ke petunjuk perlombaan, formulir pendaftaran, media sosial, dan kontak panitia.
+Halaman utama menampilkan formulir pendaftaran, unduhan formulir, petunjuk perlombaan, Instagram, dan kontak WhatsApp panitia.
 
-> **“mengukir prestasi berasama praja muda”**
+> “mengukir prestasi berasama praja”
 
-## Fitur
+## Fitur halaman
 
-- Tautan **Juklak & Juknis Perlombaan** yang disiapkan menuju `juknis.html`
-- Formulir pendaftaran **Lomba Paskat**
-- Formulir pendaftaran **Lomba Mini Pionering**
-- Formulir pendaftaran **Lomba Dance Semaphore**
-- Modal **Hubungi Panitia** dengan dua kontak WhatsApp:
-  - Panitia Utama untuk informasi perlombaan
-  - Wakil Panitia Utama untuk pendaftaran dan bantuan
-- Tautan Instagram resmi `@intelligentscout_3`
-- Layar loading dengan progres animasi
-- Animasi ikon Pramuka mengambang
-- Efek hover dan focus pada tombol serta tautan
-- Tampilan responsif untuk desktop, tablet, dan smartphone
-- Dukungan `prefers-reduced-motion` serta navigasi keyboard dasar
+- Identitas CIS 3, ambalan, dan gugus depan
+- Unduhan **Formulir Pendaftaran CIS III** dalam format DOCX
+- Tautan Google Forms untuk:
+  - Lomba Paskat
+  - Lomba Mini Pionering
+  - Lomba Dance Semaphore
+- Tautan **Juklak & Juknis Perlombaan**
+- Tautan Instagram `@intelligentscout_3`
+- Dialog **Hubungi Panitia** dengan dua tautan WhatsApp:
+  - Panitia Utama — informasi perlombaan
+  - Wakil Panitia Utama — pendaftaran dan bantuan
+- Layar pemuatan selama dua detik dan dekorasi ikon Pramuka bergerak
+- Tampilan responsif, indikator fokus keyboard, dan dukungan sebagian untuk `prefers-reduced-motion`
 
 ## Teknologi
 
-- **HTML5** untuk struktur halaman
-- **CSS3** untuk layout responsif, gradient, glassmorphism, shadow, dan animasi
-- **JavaScript vanilla** untuk layar loading, animasi ikon, dan modal WhatsApp
-- **SVG inline** untuk ikon WhatsApp dan Instagram
+- HTML5 untuk struktur halaman
+- CSS internal pada `index.html` untuk tampilan dan animasi
+- JavaScript vanilla untuk layar pemuatan, dekorasi, dan dialog WhatsApp
+- SVG inline untuk ikon WhatsApp dan Instagram
 
-Tidak ada framework, package manager, atau proses build yang diperlukan.
+Tidak ada framework, dependensi, atau proses build yang diperlukan.
 
-## Struktur Project
+## Struktur project
 
 ```text
 Competition-Intelligent-Scout-3/
 ├── index.html
-├── Proyek Baru 503 (logo cis there) [39A0A50].png
+├── cis.png
+├── FORM PENDAFTARAN CIS III.docx
+├── WhatsApp Image 2026-08-19 at 20.01.42.jpeg
 └── README.md
 ```
 
-## Menjalankan Project
+`cis.png` digunakan sebagai logo yang tampil di halaman. Berkas JPEG saat ini tidak dirujuk oleh `index.html`.
 
-Karena project ini berupa website statis, halaman dapat dibuka langsung dengan browser:
+## Menjalankan website
 
-1. Buka file `index.html`.
-2. Pastikan file logo berada di folder yang sama.
-3. Gunakan tombol pada halaman untuk membuka formulir Google, Instagram, atau kontak WhatsApp.
-4. Tambahkan `juknis.html` jika ingin mengaktifkan tautan Juklak & Juknis.
+Website ini statis. Buka `index.html` langsung di browser, atau jalankan folder project menggunakan ekstensi **Live Server** di VS Code. Pastikan `cis.png` dan berkas DOCX tetap berada di folder yang sama dengan `index.html`.
 
-Untuk pengalaman pengembangan yang lebih baik, project juga dapat dijalankan menggunakan ekstensi **Live Server** di VS Code.
+**Catatan:** tautan **Juklak & Juknis Perlombaan** pada halaman mengarah ke `juknis.html`, tetapi berkas tersebut belum tersedia di project. Tautan itu baru dapat digunakan setelah `juknis.html` ditambahkan.
 
-## Kontak Panitia
+## Kontak panitia
 
-Menu WhatsApp pada halaman utama menyediakan:
-
-- **Panitia Utama** — `+62 819-1079-3125` untuk informasi perlombaan
-- **Wakil Panitia Utama** — `+62 821-1855-0966` untuk pendaftaran dan bantuan
+- **Panitia Utama:** +62 819-1079-3125
+- **Wakil Panitia Utama:** +62 821-1855-0966
 
 ## Lisensi
 
 Project ini dibuat untuk mendukung kegiatan **Competition Intelligent Scout 3**.
 
 © 2026 Competition Intelligent Scout 3
-**Kreativitas • Inovasi • Solidaritas**
+
+Kreativitas • Inovasi • Solidaritas
