@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Website resmi Competition Intelligent Scout 3 Ambalan Bhatara Rama, Dewi Shinta, Gugus Depan Ciamis 01-139 dan 01-140.">
+    <title>CIS 3 | Bhatara Rama &amp; Dewi Shinta</title>
+    <link rel="icon" href="Proyek Baru 503 (logo cis there) [39A0A50].png" type="image/png">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --green-dark: #6d1b1b;
+            --green: #e33f27;
+            --green-light: #ff8842;
+            --blue: #1264a0;
+            --blue-light: #2e91c7;
+            --lime: #ffd166;
+            --white: #ffffff;
+            --text: #541d1a;
+        }
+
+        body.is-loading {
+            overflow: hidden;
+        }
+
+        .loading-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: grid;
+            place-items: center;
+            color: white;
+            background: linear-gradient(145deg, #7b111b, #ee4325 58%, #ff9a3d);
+            transition: opacity .5s ease, visibility .5s ease;
+        }
+
+        .loading-screen.is-hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loading-content {
+            display: grid;
+            justify-items: center;
+            gap: 16px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .loading-orbit {
+            position: absolute;
+            width: 190px;
+            height: 190px;
+            border: 1px solid rgba(255, 255, 255, .28);
+            border-radius: 50%;
+            animation: orbitSpin 5s linear infinite;
+        }
+
+        .loading-orbit::before,
+        .loading-orbit::after {
+            content: "";
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--lime);
+            box-shadow: 0 0 22px var(--lime);
+        }
+
+        .loading-orbit::before {
+            top: 12px;
+            left: 36px;
+        }
+
+        .loading-orbit::after {
+            right: 18px;
+            bottom: 34px;
+            background: var(--lime);
+            box-shadow: 0 0 22px var(--lime);
+        }
+
+        .loading-logo {
+            width: 110px;
+            height: 110px;
+            object-fit: contain;
+            padding: 8px;
+            border: 2px solid rgba(255, 255, 255, .75);
+            border-radius: 30px;
+            background: rgba(255, 255, 255, .14);
+            animation: loadingPulse 1.1s ease-in-out infinite;
+        }
+
+        .loading-title {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 23px;
+            font-weight: 700;
+        }
+
+        .loading-status {
+            color: rgba(255, 255, 255, .82);
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .loading-progress {
+            width: min(250px, 70vw);
+            height: 5px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .2);
+        }
+
+        .loading-progress::after {
+            content: "";
+            display: block;
+            width: 45%;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, var(--lime), var(--green-light));
+            box-shadow: 0 0 15px var(--lime);
+            animation: loadingProgress 2s ease-in-out infinite;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: var(--text);
+            overflow-x: hidden;
+            background:
+                linear-gradient(125deg, rgba(255, 255, 255, .08) 0 1px, transparent 1px 72px),
+                linear-gradient(to bottom, #ef2f1d 0%, #f45127 34%, #ff762b 68%, #ffad43 100%);
+            background-size: 100% 100%, 100% 100%;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            filter: blur(1px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::before {
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 230, 150, .42);
+            top: 18%;
+            left: 0;
+            transform: rotate(-7deg);
+            box-shadow: 0 0 24px rgba(255, 210, 100, .7);
+        }
+
+        body::after {
+            width: 70%;
+            height: 2px;
+            background: rgba(255, 255, 255, .2);
+            right: -10%;
+            bottom: 20%;
+            transform: rotate(-7deg);
+        }
+
+        /* ===== ANIMASI PRAMUKA (floating scout icons) ===== */
+        .scout-bg {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .scout-bg span {
+            position: absolute;
+            bottom: -60px;
+            opacity: 0;
+            font-size: 26px;
+            line-height: 1;
+            filter: drop-shadow(0 6px 10px rgba(6, 78, 59, .25));
+            animation-name: scoutFloat;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
+            will-change: transform, opacity;
+        }
+
+        .scout-bg span:nth-child(3n) {
+            font-size: 20px;
+        }
+
+        .scout-bg span:nth-child(2n) {
+            animation-direction: reverse;
+        }
+
+        @keyframes scoutFloat {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            12% {
+                opacity: .55;
+            }
+
+            50% {
+                transform: translateY(-52vh) translateX(18px) rotate(18deg);
+                opacity: .5;
+            }
+
+            88% {
+                opacity: .25;
+            }
+
+            100% {
+                transform: translateY(-108vh) translateX(-16px) rotate(-14deg);
+                opacity: 0;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .scout-bg {
+                display: none;
+            }
+
+            .logo-wrap {
+                animation: none;
+            }
+        }
+
+        .page {
+            position: relative;
+            z-index: 1;
+            width: min(100%, 980px);
+            min-height: 100vh;
+            margin: auto;
+            padding: 42px 20px 30px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 620px;
+            text-align: center;
+        }
+
+        .logo-wrap {
+            width: 112px;
+            height: 112px;
+            margin: 0 auto 22px;
+            padding: 5px;
+            border-radius: 32px;
+            background: rgba(255, 255, 255, .35);
+            box-shadow: 0 18px 45px rgba(6, 78, 59, .18);
+            backdrop-filter: blur(12px);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .logo {
+            width: 100%;
+            height: 100%;
+            border-radius: 27px;
+            display: grid;
+            place-items: center;
+            color: white;
+            font-size: 35px;
+            font-weight: 900;
+            letter-spacing: -3px;
+            background: linear-gradient(145deg, var(--green-dark), var(--green));
+            border: 3px solid rgba(255, 255, 255, .8);
+            box-shadow: inset 0 0 0 4px rgba(255, 255, 255, .08);
+        }
+
+        .logo small {
+            display: block;
+            font-size: 9px;
+            letter-spacing: 1.5px;
+            margin-top: 3px;
+            color: var(--lime);
+        }
+
+        .eyebrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: min(220px, 65%);
+            margin: 0 auto 14px;
+            color: var(--lime);
+            font-size: 25px;
+            line-height: 1;
+            text-shadow: 0 3px 12px rgba(84, 29, 26, .4);
+        }
+
+        .eyebrow::before,
+        .eyebrow::after {
+            content: "";
+            width: clamp(38px, 10vw, 64px);
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .85), transparent);
+            box-shadow: 0 0 10px rgba(255, 255, 255, .35);
+        }
+
+        .ambalan-identity {
+            margin: 0 auto 18px;
+            padding: 12px 18px;
+            width: min(100%, 560px);
+            border: 1px solid rgba(255, 255, 255, .46);
+            border-radius: 18px;
+            color: var(--green-dark);
+            background: rgba(255, 255, 255, .28);
+            box-shadow: 0 12px 30px rgba(6, 78, 59, .12);
+            backdrop-filter: blur(12px);
+        }
+
+        .ambalan-name {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(4px, 1vw, 10px);
+            color: white;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(12px, 3.8vw, 23px);
+            font-weight: 700;
+            letter-spacing: .2px;
+            line-height: 1.25;
+            white-space: nowrap;
+            text-shadow: 0 4px 14px rgba(6, 78, 59, .25);
+        }
+
+        .ambalan-name span {
+            color: var(--lime);
+        }
+
+        .ambalan-label {
+            display: block;
+            margin-bottom: 4px;
+            color: rgba(255, 255, 255, .9);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .gudep-number {
+            display: block;
+            margin-top: 5px;
+            color: rgba(255, 255, 255, .9);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            color: white;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(32px, 7vw, 54px);
+            line-height: .98;
+            letter-spacing: -1.5px;
+            text-shadow: 0 8px 24px rgba(6, 78, 59, .25);
+        }
+
+        h1 span {
+            color: var(--lime);
+        }
+
+        .tagline {
+            margin: 17px auto 28px;
+            max-width: 510px;
+            color: rgba(255, 255, 255, .95);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(15px, 3vw, 20px);
+            line-height: 1.5;
+        }
+
+        .links-card {
+            padding: 14px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, .18);
+            border: 1px solid rgba(255, 255, 255, .35);
+            box-shadow: 0 25px 70px rgba(6, 78, 59, .18);
+            backdrop-filter: blur(18px);
+        }
+
+        .link {
+            position: relative;
+            width: 100%;
+            min-height: 66px;
+            margin-bottom: 12px;
+            padding: 14px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            border: 1px solid rgba(255, 255, 255, .7);
+            border-radius: 18px;
+            color: var(--green-dark);
+            background: rgba(255, 255, 255, .94);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 800;
+            box-shadow: 0 8px 22px rgba(6, 78, 59, .08);
+            transition: .25s ease;
+            overflow: hidden;
+        }
+
+        .link:last-child {
+            margin-bottom: 0;
+        }
+
+        .link::before {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 100%;
+            left: 0;
+            top: 0;
+            background: linear-gradient(90deg, var(--green), var(--green-light));
+            transition: width .3s ease;
+            z-index: 0;
+        }
+
+        .link:hover {
+            transform: translateY(-4px) scale(1.01);
+            color: white;
+            box-shadow: 0 15px 30px rgba(6, 78, 59, .2);
+        }
+
+        .link:hover::before {
+            width: 100%;
+        }
+
+        .link-content,
+        .arrow {
+            position: relative;
+            z-index: 1;
+        }
+
+        .link-content {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            text-align: left;
+        }
+
+        .icon-box {
+            width: 39px;
+            height: 39px;
+            flex: 0 0 39px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            color: var(--green-dark);
+            background: linear-gradient(135deg, var(--blue-light), var(--green-light));
+            font-size: 18px;
+        }
+
+        .arrow {
+            font-size: 22px;
+            transition: transform .25s ease;
+        }
+
+        .link:hover .arrow {
+            transform: translateX(5px);
+        }
+
+        .link:focus-visible,
+        .social a:focus-visible,
+        .social button:focus-visible,
+        .wa-contact:focus-visible,
+        .wa-modal-close:focus-visible {
+            outline: 3px solid var(--lime);
+            outline-offset: 3px;
+        }
+
+        .social {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 25px 0 18px;
+        }
+
+        .social a,
+        .social button {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            border-radius: 15px;
+            color: white;
+            background: rgba(6, 78, 59, .7);
+            border: 1px solid rgba(255, 255, 255, .45);
+            box-shadow: 0 10px 25px rgba(6, 78, 59, .14);
+            transition: .25s ease;
+            cursor: pointer;
+            font: inherit;
+            position: relative;
+        }
+
+        .social-wa {
+            background: linear-gradient(145deg, #25d366, #128c7e) !important;
+            border-color: rgba(220, 255, 235, .75) !important;
+            box-shadow: 0 10px 25px rgba(18, 140, 126, .32) !important;
+        }
+
+        .social a[aria-label="Instagram"] {
+            background: linear-gradient(145deg, #833ab4, #c13584 52%, #fd1d1d) !important;
+            border-color: rgba(255, 220, 245, .75) !important;
+            box-shadow: 0 10px 25px rgba(131, 58, 180, .3) !important;
+        }
+
+        .social-wa:hover,
+        .social-wa.is-active {
+            color: #128c7e !important;
+            background: #eafff1 !important;
+            border-color: #25d366 !important;
+        }
+
+        .social a[aria-label="Instagram"]:hover {
+            color: #833ab4 !important;
+            background: #fff0fb !important;
+            border-color: #c13584 !important;
+        }
+
+        .social a:hover,
+        .social button:hover {
+            transform: translateY(-4px);
+            background: white;
+            color: var(--green-dark);
+        }
+
+        .social svg {
+            width: 21px;
+            height: 21px;
+            fill: currentColor;
+        }
+
+        .social button.is-active {
+            background: white;
+            color: var(--green-dark);
+        }
+
+        /* ===== WHATSAPP MODAL (2 nomor) ===== */
+        .wa-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(6, 30, 22, .45);
+            backdrop-filter: blur(6px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .3s ease, visibility .3s ease;
+        }
+
+        .wa-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .wa-modal {
+            width: 100%;
+            max-width: 360px;
+            padding: 26px 22px 22px;
+            border-radius: 26px;
+            background: rgba(255, 255, 255, .97);
+            box-shadow: 0 30px 80px rgba(6, 78, 59, .35);
+            border: 1px solid rgba(255, 255, 255, .6);
+            transform: translateY(24px) scale(.96);
+            transition: transform .32s cubic-bezier(.34, 1.56, .64, 1);
+            text-align: left;
+            position: relative;
+        }
+
+        .wa-overlay.open .wa-modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .wa-modal-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 32px;
+            height: 32px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            border: none;
+            background: rgba(6, 78, 59, .08);
+            color: var(--green-dark);
+            font-size: 16px;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .wa-modal-close:hover {
+            background: rgba(6, 78, 59, .18);
+            transform: rotate(90deg);
+        }
+
+        .wa-modal-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 4px;
+            color: var(--green-dark);
+            font-weight: 900;
+            font-size: 18px;
+        }
+
+        .wa-modal-title svg {
+            width: 24px;
+            height: 24px;
+            fill: #25d366;
+        }
+
+        .wa-modal-sub {
+            margin-bottom: 18px;
+            color: #4a6b5c;
+            font-size: 13px;
+        }
+
+        .wa-contact {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            width: 100%;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            border-radius: 16px;
+            border: 1px solid rgba(6, 78, 59, .1);
+            background: linear-gradient(180deg, #f4fbf6, #e9f8ee);
+            text-decoration: none;
+            color: var(--text);
+            transition: .22s ease;
+        }
+
+        .wa-contact:last-child {
+            margin-bottom: 0;
+        }
+
+        .wa-contact:hover {
+            transform: translateY(-3px);
+            border-color: #25d366;
+            box-shadow: 0 12px 24px rgba(37, 211, 102, .22);
+        }
+
+        .wa-contact-avatar {
+            flex: 0 0 44px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: white;
+            font-size: 20px;
+        }
+
+        .wa-contact-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .wa-contact-name {
+            font-weight: 800;
+            font-size: 14px;
+            color: var(--green-dark);
+        }
+
+        .wa-contact-role {
+            font-size: 12px;
+            color: #5c7a6c;
+        }
+
+        .wa-contact-number {
+            font-size: 12px;
+            font-weight: 700;
+            color: #128c7e;
+            white-space: nowrap;
+        }
+
+        .wa-contact-go {
+            flex: 0 0 auto;
+            color: #128c7e;
+            font-size: 18px;
+        }
+
+        .wa-contact-copy {
+            display: block;
+            margin-top: 4px;
+            color: #128c7e;
+            font-size: 11px;
+        }
+
+        @media (max-width: 600px) {
+
+            .wa-modal {
+                max-width: 92vw;
+                padding: 22px 16px 18px;
+                border-radius: 22px;
+            }
+        }
+
+        footer {
+            color: rgba(255, 255, 255, .85);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        footer strong {
+            color: white;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @keyframes loadingPulse {
+
+            0%,
+            100% {
+                transform: scale(.96) rotate(-3deg);
+            }
+
+            50% {
+                transform: scale(1.04) rotate(3deg);
+            }
+        }
+
+        @keyframes orbitSpin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes loadingProgress {
+            0% {
+                transform: translateX(-120%);
+            }
+
+            100% {
+                transform: translateX(260%);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page {
+                padding: 28px 14px 22px;
+            }
+
+            .logo-wrap {
+                width: 92px;
+                height: 92px;
+                border-radius: 27px;
+            }
+
+            .logo {
+                border-radius: 22px;
+                font-size: 28px;
+            }
+
+            .links-card {
+                padding: 10px;
+                border-radius: 24px;
+            }
+
+            .link {
+                min-height: 62px;
+                padding: 12px 15px;
+                border-radius: 16px;
+                font-size: 14px;
+            }
+
+            .icon-box {
+                width: 35px;
+                height: 35px;
+                flex-basis: 35px;
+            }
+
+            .link-content {
+                gap: 10px;
+            }
+
+            .wa-contact-number {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loading-screen" id="loadingScreen" role="status" aria-label="Memuat halaman">
+        <div class="loading-content">
+            <div class="loading-orbit" aria-hidden="true"></div>
+            <img class="loading-logo" src="cis.png" alt="Logo Competition Intelligent Scout 3">
+            <div class="loading-title">Competition Intelligent Scout 3</div>
+            <div class="loading-status">Menyiapkan halaman</div>
+            <div class="loading-progress" aria-hidden="true"></div>
+        </div>
+    </div>
+
+    <div class="scout-bg" id="scoutBg" aria-hidden="true"></div>
+
+    <main class="page">
+        <section class="container">
+
+            <!-- LOGO -->
+            <div class="logo-wrap">
+                <img class="logo" src="cis.png" alt="Competition Intelligent Scout 3 Logo">
+            </div>
+
+            <div class="eyebrow" aria-hidden="true">⚜️</div>
+
+            <div class="ambalan-identity" aria-label="Identitas ambalan dan gugus depan">
+                <span class="ambalan-label">Ambalan</span>
+                <div class="ambalan-name"><span>BHATARA RAMA</span> &amp; <span>DEWI SHINTA</span></div>
+                <span class="gudep-number">Gugus Depan Ciamis 01-139 • 01-140</span>
+            </div>
+
+            <h1>
+                COMPETITION<br>
+                INTELLIGENT <span>SCOUT 3 </span>
+            </h1>
+
+            <p class="tagline">
+                “mengukir prestasi berasama praja ”
+            </p>
+
+            <!-- LINK / MENU -->
+            <div class="links-card">
+
+                <a class="link" href="FORM%20PENDAFTARAN%20CIS%20III.docx" target="_blank" rel="noopener">
+                    <span class="link-content">
+                        <span class="icon-box">📄</span>
+                        <span>Download Formulir Pendaftaran</span>
+                    </span>
+                    <span class="arrow" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3v12"></path>
+                            <path d="m7 10 5 5 5-5"></path>
+                            <path d="M5 17v3h14v-3"></path>
+                        </svg>
+                    </span>
+                </a>
+
+                <a class="link" href="juknis.html">
+                    <span class="link-content">
+                        <span class="icon-box">⚜️</span>
+                        <span>Juklak & Juknis Perlombaan</span>
+                    </span>
+                    <span class="arrow">→</span>
+                </a>
+
+                <a class="link"
+                    href="https://docs.google.com/forms/d/e/1FAIpQLSco52dtm-rBkPIOADou2QsX4KFoWqNp69lzqF2kqg5DQATQWA/viewform?usp=header"
+                    target="_blank">
+                    <span class="link-content">
+                        <span class="icon-box">⚜️</span>
+                        <span>Link Pendaftaran Lomba Paskat</span>
+                    </span>
+                    <span class="arrow">→</span>
+                </a>
+
+                <a class="link"
+                    href="https://docs.google.com/forms/d/e/1FAIpQLSeUkQ26KahmDuATfgZ23SfuMd_44I6NYvY8qOWAoUXpddO8eA/viewform?usp=header"
+                    target="_blank">
+                    <span class="link-content">
+                        <span class="icon-box">⚜️</span>
+                        <span>Link Pendaftaran Lomba Mini Pionering</span>
+                    </span>
+                    <span class="arrow">→</span>
+                </a>
+
+                <a class="link"
+                    href="https://docs.google.com/forms/d/e/1FAIpQLSddUuQ-dkErXdGlTV7oNqBSADt39gPLMDbRS71RElnruaGw5g/viewform?usp=header"
+                    target="_blank">
+                    <span class="link-content">
+                        <span class="icon-box">⚜️</span>
+                        <span>Link Pendaftaran Lomba Dance Semaphore</span>
+                    </span>
+                    <span class="arrow">→</span>
+                </a>
+
+            </div>
+
+            <!-- SOCIAL MEDIA -->
+            <div class="social">
+
+                <button class="social-wa" type="button" aria-label="Pilih kontak WhatsApp" aria-haspopup="dialog"
+                    aria-controls="waOverlay">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M20.5 3.5A11.8 11.8 0 0 0 12.1 0C5.6 0 .3 5.3.3 11.8c0 2.1.6 4.1 1.6 5.8L.2 24l6.5-1.7c1.6.9 3.5 1.4 5.4 1.4 6.5 0 11.8-5.3 11.8-11.8 0-3.2-1.3-6.2-3.4-8.4ZM12.1 21.6c-1.7 0-3.4-.5-4.8-1.3l-.3-.2-3.9 1 1-3.8-.2-.4c-1-1.5-1.5-3.3-1.5-5.1C2.4 6.3 6.7 2 12.1 2s9.7 4.3 9.7 9.8-4.3 9.8-9.7 9.8Zm5.3-7.3c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-1.5-.8-2.5-1.4-3.5-3-.3-.5.3-.5.9-1.7.1-.2.1-.4 0-.6-.1-.2-.7-1.7-.9-2.3-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.7s1.2 3.1 1.4 3.3c.2.2 2.4 3.7 5.8 5.2 2.2 1 2.2.7 2.6.7.4 0 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.2-.3-.3-.6-.4Z" />
+                    </svg>
+                </button>
+
+
+
+                <a href="https://www.instagram.com/intelligentscout_3/?utm_source=ig_web_button_share_sheet"
+                    target="_blank" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M7.1 2h9.8A5.1 5.1 0 0 1 22 7.1v9.8a5.1 5.1 0 0 1-5.1 5.1H7.1A5.1 5.1 0 0 1 2 16.9V7.1A5.1 5.1 0 0 1 7.1 2Zm-.2 2A2.9 2.9 0 0 0 4 6.9v10.2A2.9 2.9 0 0 0 6.9 20h10.2a2.9 2.9 0 0 0 2.9-2.9V6.9A2.9 2.9 0 0 0 17.1 4H6.9Zm10.6 1.5a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z" />
+                    </svg>
+                </a>
+
+            </div>
+            <footer>
+                © 2026 <strong>Competition Intelligent Scout 3</strong><br>
+                Kreativitas • Inovasi • Solidaritas
+            </footer>
+
+        </section>
+    </main>
+
+    <!-- PILIHAN KONTAK WHATSAPP -->
+    <div class="wa-overlay" id="waOverlay" role="dialog" aria-modal="true" aria-labelledby="waTitle">
+        <div class="wa-modal">
+            <button class="wa-modal-close" id="waClose" type="button" aria-label="Tutup">✕</button>
+            <div class="wa-modal-title" id="waTitle">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                        d="M20.5 3.5A11.8 11.8 0 0 0 12.1 0C5.6 0 .3 5.3.3 11.8c0 2.1.6 4.1 1.6 5.8L.2 24l6.5-1.7c1.6.9 3.5 1.4 5.4 1.4 6.5 0 11.8-5.3 11.8-11.8 0-3.2-1.3-6.2-3.4-8.4ZM12.1 21.6c-1.7 0-3.4-.5-4.8-1.3l-.3-.2-3.9 1 1-3.8-.2-.4c-1-1.5-1.5-3.3-1.5-5.1C2.4 6.3 6.7 2 12.1 2s9.7 4.3 9.7 9.8-4.3 9.8-9.7 9.8Zm5.3-7.3c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-1.5-.8-2.5-1.4-3.5-3-.3-.5.3-.5.9-1.7.1-.2.1-.4 0-.6-.1-.2-.7-1.7-.9-2.3-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.7s1.2 3.1 1.4 3.3c.2.2 2.4 3.7 5.8 5.2 2.2 1 2.2.7 2.6.7.4 0 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.2-.3-.3-.6-.4Z" />
+                </svg>
+                Hubungi Panitia
+            </div>
+            <p class="wa-modal-sub">Pilih nomor WhatsApp yang ingin dihubungi.</p>
+
+            <a class="wa-contact" href="https://wa.me/6281910793125" target="_blank" rel="noopener">
+                <span class="wa-contact-avatar">1</span>
+                <span class="wa-contact-info">
+                    <span class="wa-contact-name">Panitia Utama</span>
+                    <span class="wa-contact-role">Informasi perlombaan</span>
+                    <span class="wa-contact-number">+62 819-1079-3125</span>
+                    <span class="wa-contact-copy">Buka chat WhatsApp</span>
+                </span>
+                <span class="wa-contact-go">↗</span>
+            </a>
+
+            <a class="wa-contact" href="https://wa.me/6282118550966" target="_blank" rel="noopener">
+                <span class="wa-contact-avatar">2</span>
+                <span class="wa-contact-info">
+                    <span class="wa-contact-name">Wakil Panitia Utama</span>
+                    <span class="wa-contact-role">Pendaftaran dan bantuan</span>
+                    <span class="wa-contact-number">+62 821-1855-0966</span>
+                    <span class="wa-contact-copy">Buka chat WhatsApp</span>
+                </span>
+                <span class="wa-contact-go">↗</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const loadingScreen = document.getElementById("loadingScreen");
+
+        document.body.classList.add("is-loading");
+        window.setTimeout(() => {
+            loadingScreen.classList.add("is-hidden");
+            document.body.classList.remove("is-loading");
+        }, 2000);
+
+        const scoutBg = document.getElementById("scoutBg");
+        const scoutIcons = ["⚜", "✦", "♢", "⚑", "✧", "❖", "⚜", "✦"];
+
+        scoutIcons.forEach((icon, index) => {
+            const item = document.createElement("span");
+            item.textContent = icon;
+            item.style.left = `${8 + index * 12}%`;
+            item.style.animationDuration = `${12 + index * 1.5}s`;
+            item.style.animationDelay = `${index * -1.8}s`;
+            scoutBg.appendChild(item);
+        });
+
+        const waOverlay = document.getElementById("waOverlay");
+        const waClose = document.getElementById("waClose");
+        const waTrigger = document.querySelector(".social-wa");
+
+        function toggleWhatsApp(open) {
+            waOverlay.classList.toggle("open", open);
+            document.body.style.overflow = open ? "hidden" : "";
+            if (open) waClose.focus();
+        }
+
+        waTrigger.addEventListener("click", () => toggleWhatsApp(true));
+        waClose.addEventListener("click", () => toggleWhatsApp(false));
+        waOverlay.addEventListener("click", (event) => {
+            if (event.target === waOverlay) toggleWhatsApp(false);
+        });
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && waOverlay.classList.contains("open")) {
+                toggleWhatsApp(false);
+                waTrigger.focus();
+            }
+        });
+
+    </script>
+</body>
+
+</html>
